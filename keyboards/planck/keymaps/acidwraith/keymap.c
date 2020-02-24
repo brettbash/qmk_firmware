@@ -34,6 +34,11 @@ enum planck_keycodes {
     COLRSWT,
     SCREEN,
 
+    CODE_G_NXT,
+    CODE_G_PRV,
+    CODE_E_NXT,
+    CODE_E_PRV,
+
     // VIM
     JOIN_B_LINE,
     YANK_LINE,
@@ -79,10 +84,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: LOWER ---------------------------::
 // ____
 [_LOWER] = LAYOUT_planck_grid(
-    KC_GRV,   KC_EXLM,   KC_AT,    KC_HASH,        KC_DLR,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_PIPE,  KC_EQL,   LSFT(KC_SCLN),
-    KC_TILD,  KC_BSLS,   KC_LCBR,  KC_LBRC,        KC_LPRN,  KC_LT,     KC_GT,    KC_RPRN,  KC_RBRC,  KC_RCBR,  KC_SLSH,  KC_PLUS,
-    _______,  _______,   CMT_BLK,  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,   KC_UNDS,  KC_TABR,  _______,  _______,  _______,  KC_ENT,
-    _______,  _______,   _______,  _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  _______,  _______,  _______,  _______
+    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_PIPE,  KC_EQL,   LSFT(KC_SCLN),
+    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,     KC_GT,    KC_RPRN,  KC_RBRC,  KC_RCBR,  KC_SLSH,  KC_PLUS,
+    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,   KC_UNDS,  KC_TABR,  _______,  _______,  _______,  KC_ENT,
+    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  _______,  _______,  _______,  _______
 ),
 
 // π ----
@@ -111,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_NAV] = LAYOUT_planck_grid(
     KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,    _______, _______, _______, _______, _______, _______,
     KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,    KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-    _______,      CODE_G_NXT,    CODE_G_PRV,    CODE_E_NXT,    CODE_E_PRV,        _______,    _______, SCN_LT,  SCN_RT,  _______, _______, _______,
+    _______,      _______,       _______,       _______,     _______,        _______,    _______, SCN_LT,  SCN_RT,  _______, _______, _______,
     _______,      _______,       _______,       _______,     _______,        _______,    _______, _______, _______, _______, _______, _______
 ),
 
@@ -237,13 +242,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case SCREEN:
         if (record->event.pressed) {
           SEND_STRING(SS_DOWN(X_LSHIFT) SS_LCMD("4") SS_UP(X_LSHIFT));
-        }
-      return false;
-      break;
-
-    case CMT_BLK:
-        if (record->event.pressed) {
-        c SEND_STRING(SS_DOWN(X_LSHIFT) SS_LCMD("4") SS_UP(X_LSHIFT));
         }
       return false;
       break;
