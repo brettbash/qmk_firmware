@@ -8,7 +8,6 @@
 #include QMK_KEYBOARD_H
 #include "muse.h"
 
-
 enum planck_layers {
   _COLEMAK,
   _LOWER,
@@ -21,7 +20,10 @@ enum planck_layers {
 
 enum planck_keycodes {
     COLEMAK = SAFE_RANGE,
+
+    // Macros
     CODE,
+    TEACODE,
     CODEBRWR,
     DEV_TOOLS,
     SRC_CODE,
@@ -31,6 +33,25 @@ enum planck_keycodes {
     COLRPIK,
     COLRSWT,
     SCREEN,
+
+    // VIM
+    JOIN_B_LINE,
+    YANK_LINE,
+    YANK_WORD,
+    DEL_E_WORD,
+    DEL_WORD,
+    DEL_LINE,
+    CHANGE_LINE,
+    CHANGE_WORD,
+    CHANGE_E_WORD,
+    BLOK_PRN,
+    BLOK_BR,
+    IN_BLOK_PRN,
+    IN_BLOK_BR,
+    I_WORD_END,
+    JUMP_TOP,
+    MK_WORD,
+
     SCN_LT,
     SCN_RT
 };
@@ -44,17 +65,9 @@ enum planck_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Colemak
- * ,-----------------------------------------------------------------------------------.
- * | Tab  |   Q  |   W  |   F  |   P  |   G  |   J  |   L  |   U  |   Y  |   ;  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |   A  |   R  |   S  |   T  |   D  |   H  |   N  |   E  |   I  |   O  |  "   |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   K  |   M  |   ,  |   .  |   /  |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Three| Ctrl | Alt  | GUI  |Lower | Bksp |Space |Raise | Next | Vol- | Vol+ | Play |
- * `-----------------------------------------------------------------------------------'
- */
+// π ----
+// :: COLEMAK ---------------------------::
+// ____
 [_COLEMAK] = LAYOUT_planck_grid(
     KC_TAB,     KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,     KC_J,     KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,
     KC_ESC,     KC_A,    KC_R,    KC_S,    KC_T,    KC_D,     KC_H,     KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
@@ -62,86 +75,56 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     MO(_FNC),   KC_LCTL, KC_LALT, KC_LGUI, LOWER,   BSPC_VIM, SPACE_FN, RAISE,   KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
 ),
 
-/* Lower
- * ,-----------------------------------------------------------------------------------.
- * |   ~  |   !  |   @  |   #  |   $  |   %  |   ^  |   &  |   *  |  |   |   =  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |   `  |  \   |  {   |  [   |  (   |  <   |   >  |   )  |   ]  |   }  |   /  |   +  |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |CmdBR |  -   |   _  | CmdBL|      |       |     |Enter |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      | Bksp |Space |      |       |     |      |      |
- * `-----------------------------------------------------------------------------------'
- */
+// π ----
+// :: LOWER ---------------------------::
+// ____
 [_LOWER] = LAYOUT_planck_grid(
-    KC_GRV,   KC_EXLM,   KC_AT,    KC_HASH,  KC_DLR,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_PIPE,  KC_EQL,   KC_BSPC,
-    KC_TILD,  KC_BSLS,   KC_LCBR,  KC_LBRC,  KC_LPRN,  KC_LT,     KC_GT,    KC_RPRN,  KC_RBRC,  KC_RCBR,  KC_SLSH,  KC_PLUS,
-    _______,  _______,   _______,  _______,  KC_TABL,  KC_MINS,   KC_UNDS,  KC_TABR,  _______,  _______,  _______,  KC_ENT,
-    _______,  _______,   _______,  _______,  _______,  KC_BSPC,   KC_SPC,   _______,  _______,  _______,  _______,  _______
+    KC_GRV,   KC_EXLM,   KC_AT,    KC_HASH,        KC_DLR,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_PIPE,  KC_EQL,   LSFT(KC_SCLN),
+    KC_TILD,  KC_BSLS,   KC_LCBR,  KC_LBRC,        KC_LPRN,  KC_LT,     KC_GT,    KC_RPRN,  KC_RBRC,  KC_RCBR,  KC_SLSH,  KC_PLUS,
+    _______,  _______,   CMT_BLK,  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,   KC_UNDS,  KC_TABR,  _______,  _______,  _______,  KC_ENT,
+    _______,  _______,   _______,  _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  _______,  _______,  _______,  _______
 ),
 
-/* Raise
- * ,-----------------------------------------------------------------------------------.
- * |      |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |   4  |   5  |   6  |   +  |   *  |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |   1  |   2  |   3  |   -  |   /  |
- * |------+------+------+------+------+-------------+------+------+------+------+------|
- * |      |      |      |      |      | Bksp |Space |      |   0  |   .  |   =  | Enter|
- * `-----------------------------------------------------------------------------------'
- */
+// π ----
+// :: RAISE ---------------------------::
+// ____
 [_RAISE] = LAYOUT_planck_grid(
-    _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     KC_BSPC,
-    _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_4,    KC_5,    KC_6,    KC_PPLS,  KC_ASTR,
-    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_1,    KC_2,    KC_3,    KC_MINS,  KC_SLSH,
-    _______, _______, _______, _______, _______, KC_BSPC, KC_SPC,  _______, KC_0,    KC_PDOT, KC_EQL,  KC_ENT
+    _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,     LSFT(KC_SCLN),
+    _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_4,    KC_5,    KC_6,    KC_SLSH,  KC_PPLS,
+    _______, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_1,    KC_2,    KC_3,    KC_ASTR,  KC_MINS,
+    _______, _______, _______, _______, _______, KC_BSPC, KC_SPC,  _______, KC_0,    KC_PDOT, KC_EQL,   KC_ENT
 ),
 
-/* Vim
- * ,-----------------------------------------------------------------------------------.
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |  H   |  J   |  K   |   L  |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |   I  |   A  |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      | Shift|      |             |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
+// π ----
+// :: VIM ---------------------------::
+// ____
 [_VIM] = LAYOUT_planck_grid(
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, KC_H,    KC_J,    KC_K,    KC_L,   _______,
-    _______, _______, _______, _______, _______, KC_I,    KC_A,    _______, _______, _______, _______, _______,
-    _______, _______, _______, KC_LSFT, _______, _______, _______, _______, _______, _______, _______, _______
+    KC_DOT,   LCTL(KC_R),  KC_U,           LSFT(KC_J),  JOIN_B_LINE,     YANK_LINE,  YANK_WORD,  KC_B,       KC_W,       KC_E,     KC_LCBR,    KC_RCBR,
+    KC_ESC,   LSFT(KC_C),  CHANGE_LINE,    CHANGE_WORD, CHANGE_E_WORD,   KC_P,       KC_0,       KC_H,       KC_J,       KC_K,        KC_L,       KC_DLR,
+    BLOK_PRN, BLOK_BR,     IN_BLOK_PRN,    IN_BLOK_BR,  LSFT(KC_I),      KC_I,       KC_A,       LSFT(KC_A), I_WORD_END, DEL_E_WORD,  DEL_WORD,   DEL_LINE,
+    MK_WORD,  KC_V,     LSFT(KC_V),        KC_D,        KC_X,            _______,    KC_LSFT,    _______,    KC_Y,       _______ ,    JUMP_TOP,   LSFT(KC_G)
 ),
 
-/* Navigation
- * ,-----------------------------------------------------------------------------------.
- * |      |      |      |      |      |      |      |      |      |      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      | Left | Down |  Up  |Right |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |      |      | ScrnL| ScrnR|      |      |      |
- * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      |      |      |      |      |
- * `-----------------------------------------------------------------------------------'
- */
+// π ----
+// :: NAVIGATION ---------------------------::
+// ____
 [_NAV] = LAYOUT_planck_grid(
-    _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______,   _______, _______, _______, _______, _______, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-    _______,   _______, _______, _______, _______, _______, _______, SCN_LT,  SCN_RT,  _______, _______, _______,
-    _______,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,    _______, _______, _______, _______, _______, _______,
+    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,    KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
+    _______,      CODE_G_NXT,    CODE_G_PRV,    CODE_E_NXT,    CODE_E_PRV,        _______,    _______, SCN_LT,  SCN_RT,  _______, _______, _______,
+    _______,      _______,       _______,       _______,     _______,        _______,    _______, _______, _______, _______, _______, _______
 ),
 
-/* Macros
- */
+// π ----
+// :: MACROS ---------------------------::
+// ____
 [_FNC] = LAYOUT_planck_grid(
-    SRC_CODE,  CODEBRWR, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    SRC_CODE,  CODEBRWR, TEACODE, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     DEV_TOOLS, THINGS,   DAYONE,  ONEPASS, _______, _______, _______, _______, _______, _______, _______, _______,
     CODE,      COLRPIK,  COLRSWT, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______,   SCREEN,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
+
 
 /* Adjust (Lower + Raise)
  *                      v------------------------RGB CONTROL--------------------v
@@ -170,6 +153,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #endif
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    switch (biton32(state)) {
+      case _COLEMAK:
+          autoshift_enable();
+          break;
+      default:
+          autoshift_disable();
+          break;
+      }
   return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 
@@ -181,7 +172,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
+
+    /* Macros */
     case CODE:
+        if (record->event.pressed) {
+            SEND_STRING(SS_DOWN(X_LCTRL) SS_LCMD("e") SS_UP(X_LCTRL));
+        }
+      return false;
+      break;
+    case TEACODE:
         if (record->event.pressed) {
           SEND_STRING(SS_DOWN(X_LALT) SS_DOWN(X_LSHIFT) SS_LCMD("i") SS_UP(X_LALT) SS_UP(X_LSHIFT));
         }
@@ -223,9 +222,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       return false;
       break;
-
-
-
     case COLRPIK:
         if (record->event.pressed) {
           SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_LALT) SS_LCMD("x") SS_UP(X_LCTRL) SS_UP(X_LALT));
@@ -245,8 +241,112 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
       break;
 
+    case CMT_BLK:
+        if (record->event.pressed) {
+        c SEND_STRING(SS_DOWN(X_LSHIFT) SS_LCMD("4") SS_UP(X_LSHIFT));
+        }
+      return false;
+      break;
 
+    /* VIM */
+    case JOIN_B_LINE:
+        if (record->event.pressed) {
+          SEND_STRING("g" SS_LSFT("j"));
+        }
+      return false;
+      break;
+    case YANK_LINE:
+        if (record->event.pressed) {
+          SEND_STRING("yy");
+        }
+      return false;
+      break;
+    case YANK_WORD:
+        if (record->event.pressed) {
+          SEND_STRING("yiw");
+        }
+      return false;
+      break;
+    case DEL_E_WORD:
+        if (record->event.pressed) {
+            SEND_STRING("diw");
+        }
+      return false;
+      break;
+    case DEL_WORD:
+        if (record->event.pressed) {
+            SEND_STRING("dw");
+        }
+      return false;
+      break;
+    case DEL_LINE:
+        if (record->event.pressed) {
+            SEND_STRING("dd");
+        }
+      return false;
+      break;
+    case CHANGE_LINE:
+        if (record->event.pressed) {
+            SEND_STRING("cc");
+        }
+      return false;
+      break;
+    case CHANGE_WORD:
+        if (record->event.pressed) {
+            SEND_STRING("cw");
+        }
+      return false;
+      break;
+    case CHANGE_E_WORD:
+        if (record->event.pressed) {
+            SEND_STRING("ciw");
+        }
+      return false;
+      break;
+    case BLOK_PRN:
+        if (record->event.pressed) {
+            SEND_STRING("ab");
+        }
+      return false;
+      break;
+    case BLOK_BR:
+        if (record->event.pressed) {
+            SEND_STRING("aB");
+        }
+      return false;
+      break;
+    case IN_BLOK_PRN:
+        if (record->event.pressed) {
+            SEND_STRING("ib");
+        }
+      return false;
+      break;
+    case IN_BLOK_BR:
+        if (record->event.pressed) {
+            SEND_STRING("iB");
+        }
+      return false;
+      break;
+    case I_WORD_END:
+        if (record->event.pressed) {
+            SEND_STRING("ea");
+        }
+      return false;
+      break;
+    case MK_WORD:
+        if (record->event.pressed) {
+            SEND_STRING("aw");
+        }
+      return false;
+      break;
+    case JUMP_TOP:
+        if (record->event.pressed) {
+            SEND_STRING("gg");
+        }
+      return false;
+      break;
 
+    /* Navigation */
     case SCN_LT:
         if (record->event.pressed) {
           SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_LEFT) SS_UP(X_LCTRL) SS_UP(X_LEFT));
