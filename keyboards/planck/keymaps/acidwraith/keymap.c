@@ -104,10 +104,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: VIM ---------------------------::
 // ____
 [_VIM] = LAYOUT_planck_grid(
-    KC_DOT,   LCTL(KC_R),  KC_U,           LSFT(KC_J),  JOIN_B_LINE,     YANK_LINE,  YANK_WORD,  KC_B,       KC_W,       KC_E,     KC_LCBR,    KC_RCBR,
+    KC_DOT,   LCTL(KC_R),  KC_U,           _______,     KC_Y,            YANK_LINE,  YANK_WORD,  KC_B,       KC_W,       KC_E,     KC_LCBR,    KC_RCBR,
     KC_ESC,   LSFT(KC_C),  CHANGE_LINE,    CHANGE_WORD, CHANGE_E_WORD,   KC_P,       KC_0,       KC_H,       KC_J,       KC_K,        KC_L,       KC_DLR,
     BLOK_PRN, BLOK_BR,     IN_BLOK_PRN,    IN_BLOK_BR,  LSFT(KC_I),      KC_I,       KC_A,       LSFT(KC_A), I_WORD_END, DEL_E_WORD,  DEL_WORD,   DEL_LINE,
-    MK_WORD,  KC_V,     LSFT(KC_V),        KC_D,        KC_X,            _______,    KC_LSFT,    _______,    KC_Y,       _______ ,    JUMP_TOP,   LSFT(KC_G)
+    MK_WORD,  KC_V,     LSFT(KC_V),        LSFT(KC_J),  JOIN_B_LINE,     _______,    KC_LSFT,    _______,   KC_D,        KC_X,    JUMP_TOP,   LSFT(KC_G)
 ),
 
 // π ----
