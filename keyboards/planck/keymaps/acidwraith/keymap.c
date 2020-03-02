@@ -104,10 +104,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: VIM ---------------------------::
 // ____
 [_VIM] = LAYOUT_planck_grid(
-    KC_DOT,   LCTL(KC_R),  KC_U,           _______,     KC_Y,            YANK_LINE,  YANK_WORD,  KC_B,       KC_W,       KC_E,     KC_LCBR,    KC_RCBR,
-    KC_ESC,   LSFT(KC_C),  CHANGE_LINE,    CHANGE_WORD, CHANGE_E_WORD,   KC_P,       KC_0,       KC_H,       KC_J,       KC_K,        KC_L,       KC_DLR,
-    BLOK_PRN, BLOK_BR,     IN_BLOK_PRN,    IN_BLOK_BR,  LSFT(KC_I),      KC_I,       KC_A,       LSFT(KC_A), I_WORD_END, DEL_E_WORD,  DEL_WORD,   DEL_LINE,
-    MK_WORD,  KC_V,     LSFT(KC_V),        LSFT(KC_J),  JOIN_B_LINE,     _______,    KC_LSFT,    _______,   KC_D,        KC_X,    JUMP_TOP,   LSFT(KC_G)
+    _______,  _______, LSFT(KC_G), JUMP_TOP, _______, _______, LCTL(KC_CIRC), LCTL(KC_F),  LCTL(KC_D), LCTL(KC_U), LCTL(KC_B), _______,
+    KC_ESC,   KC_B,    KC_LCBR,    KC_RCBR,  KC_W,    KC_E,    KC_0,          KC_H,        KC_J,       KC_K,       KC_L,       KC_DLR,
+    _______,  _______, _______,    _______,  _______, _______, _______,       _______,     _______,    _______,    _______,    _______,
+    _______,  _______, _______,    _______,  _______, _______, KC_LSFT,       _______,     _______,    _______,    _______,    _______
 ),
 
 // π ----
@@ -117,8 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,    _______, _______, _______, _______, _______, _______,
     KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,    KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
     _______,      _______,       _______,       _______,     _______,        _______,    _______, SCN_LT,  SCN_RT,  _______, _______, _______,
-    _______,      _______,       _______,       _______,     _______,        _______,    _______, _______, _______, _______, _______, _______
-),
+    _______,      _______,       _______,       _______,     _______,        _______,    _______, _______, _______, _______, _______, _______),
 
 // π ----
 // :: MACROS ---------------------------::
@@ -247,96 +246,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
 
     /* VIM */
-    case JOIN_B_LINE:
-        if (record->event.pressed) {
-          SEND_STRING("g" SS_LSFT("j"));
-        }
-      return false;
-      break;
-    case YANK_LINE:
-        if (record->event.pressed) {
-          SEND_STRING("yy");
-        }
-      return false;
-      break;
-    case YANK_WORD:
-        if (record->event.pressed) {
-          SEND_STRING("yiw");
-        }
-      return false;
-      break;
-    case DEL_E_WORD:
-        if (record->event.pressed) {
-            SEND_STRING("diw");
-        }
-      return false;
-      break;
-    case DEL_WORD:
-        if (record->event.pressed) {
-            SEND_STRING("dw");
-        }
-      return false;
-      break;
-    case DEL_LINE:
-        if (record->event.pressed) {
-            SEND_STRING("dd");
-        }
-      return false;
-      break;
-    case CHANGE_LINE:
-        if (record->event.pressed) {
-            SEND_STRING("cc");
-        }
-      return false;
-      break;
-    case CHANGE_WORD:
-        if (record->event.pressed) {
-            SEND_STRING("cw");
-        }
-      return false;
-      break;
-    case CHANGE_E_WORD:
-        if (record->event.pressed) {
-            SEND_STRING("ciw");
-        }
-      return false;
-      break;
-    case BLOK_PRN:
-        if (record->event.pressed) {
-            SEND_STRING("ab");
-        }
-      return false;
-      break;
-    case BLOK_BR:
-        if (record->event.pressed) {
-            SEND_STRING("aB");
-        }
-      return false;
-      break;
-    case IN_BLOK_PRN:
-        if (record->event.pressed) {
-            SEND_STRING("ib");
-        }
-      return false;
-      break;
-    case IN_BLOK_BR:
-        if (record->event.pressed) {
-            SEND_STRING("iB");
-        }
-      return false;
-      break;
-    case I_WORD_END:
-        if (record->event.pressed) {
-            SEND_STRING("ea");
-        }
-      return false;
-      break;
-    case MK_WORD:
-        if (record->event.pressed) {
-            SEND_STRING("aw");
-        }
-      return false;
-      break;
     case JUMP_TOP:
         if (record->event.pressed) {
             SEND_STRING("gg");
