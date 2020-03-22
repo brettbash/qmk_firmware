@@ -15,6 +15,7 @@ enum planck_layers {
   _VIM,
   _NAV,
   _FNC,
+  _EMOJI,
   _ADJUST
 };
 
@@ -34,31 +35,14 @@ enum planck_keycodes {
     COLRSWT,
     SCREEN,
 
-    CODE_G_NXT,
-    CODE_G_PRV,
-    CODE_E_NXT,
-    CODE_E_PRV,
-
     // VIM
-    JOIN_B_LINE,
-    YANK_LINE,
-    YANK_WORD,
-    DEL_E_WORD,
-    DEL_WORD,
-    DEL_LINE,
-    CHANGE_LINE,
-    CHANGE_WORD,
-    CHANGE_E_WORD,
-    BLOK_PRN,
-    BLOK_BR,
-    IN_BLOK_PRN,
-    IN_BLOK_BR,
-    I_WORD_END,
     JUMP_TOP,
-    MK_WORD,
 
     SCN_LT,
-    SCN_RT
+    SCN_RT,
+
+    // Emoji
+    KISS
 };
 
 #define LOWER MO(_LOWER)
@@ -67,6 +51,8 @@ enum planck_keycodes {
 #define KC_TABL LGUI(KC_LBRC)  // Send Command + [
 #define SPACE_FN LT(_NAV, KC_SPC)
 #define BSPC_VIM LT(_VIM, KC_BSPC)
+#define EMOJI_ESC LT(_EMOJI, KC_ESC)
+#define VIM_ALF LT(KC_LSFT, LGUI(KC_SPC)) // Not working currently.
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -75,19 +61,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ____
 [_COLEMAK] = LAYOUT_planck_grid(
     KC_TAB,     KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,     KC_J,     KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,
-    KC_ESC,     KC_A,    KC_R,    KC_S,    KC_T,    KC_D,     KC_H,     KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
+    EMOJI_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,     KC_H,     KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
     KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_K,     KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-    MO(_FNC),   KC_LCTL, KC_LALT, KC_LGUI, LOWER,   BSPC_VIM, SPACE_FN, RAISE,   KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY
+    MO(_FNC),   KC_LCTL, KC_LALT, KC_LGUI, LOWER,   BSPC_VIM, SPACE_FN, RAISE,   KC_MFFD, KC_VOLD, KC_VOLU, KC_MPLY
 ),
 
 // π ----
 // :: LOWER ---------------------------::
 // ____
 [_LOWER] = LAYOUT_planck_grid(
-    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,   KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_PIPE,  KC_EQL,   LSFT(KC_SCLN),
-    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,     KC_GT,    KC_RPRN,  KC_RBRC,  KC_RCBR,  KC_SLSH,  KC_PLUS,
-    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,   KC_UNDS,  KC_TABR,  _______,  _______,  _______,  KC_ENT,
-    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  _______,  _______,  _______,  _______
+    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_PIPE,  KC_EQL,   LSFT(KC_SCLN),
+    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,  KC_RCBR,  KC_SLSH,  KC_PLUS,
+    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  _______,  _______,  _______, KC_ENT,
+    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  KC_MRWD,  LALT(LSFT(KC_VOLD)),  LALT(LSFT(KC_VOLU)),  KC_MUTE
 ),
 
 // π ----
@@ -104,8 +90,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: VIM ---------------------------::
 // ____
 [_VIM] = LAYOUT_planck_grid(
-    _______,  _______, LSFT(KC_G), JUMP_TOP, _______, _______, LCTL(KC_CIRC), LCTL(KC_F),  LCTL(KC_D), LCTL(KC_U), LCTL(KC_B), _______,
-    KC_ESC,   KC_B,    KC_LCBR,    KC_RCBR,  KC_W,    KC_E,    KC_0,          KC_H,        KC_J,       KC_K,       KC_L,       KC_DLR,
+    _______,  _______, LSFT(KC_G), JUMP_TOP, _______, _______, KC_CIRC, LCTL(KC_F),  LCTL(KC_D), LCTL(KC_U), LCTL(KC_B), _______,
+    KC_ESC,   KC_B,    KC_RCBR,    KC_LCBR,  KC_W,    KC_E,    KC_0,          KC_H,        KC_J,       KC_K,       KC_L,       KC_DLR,
     _______,  _______, _______,    _______,  _______, _______, _______,       _______,     _______,    _______,    _______,    _______,
     _______,  _______, _______,    _______,  _______, _______, KC_LSFT,       _______,     _______,    _______,    _______,    _______
 ),
@@ -128,6 +114,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     CODE,      COLRPIK,  COLRSWT, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______,   SCREEN,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
+
+// Emoji
+[_EMOJI] = LAYOUT_planck_grid(
+    SRC_CODE,  CODEBRWR, TEACODE, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    DEV_TOOLS, THINGS,   DAYONE,  ONEPASS, _______, _______, _______, _______, _______, _______, _______, _______,
+    CODE,      COLRPIK,  COLRSWT, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______,   SCREEN,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+),
+/* [_EMOJI] = LAYOUT_planck_grid(
+    _______, CRY,     SHOCK,   SAD,     THUMBDN, HEART,     SSMILE,  THUMBUP, METAL,   OK,      MUSCLE,  ALIEN,
+    _______, _______, _______, _______, _______, HEARTEYES, KISS,    SMILE,   PRAISE,  LMAO,    ROFL,    VULCAN,
+    _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______,   _______, _______, _______, _______, _______, _______
+), */
 
 
 /* Adjust (Lower + Raise)
@@ -266,6 +266,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       return false;
       break;
+
+    // Emoji
+    case KISS:
+        if (record->event.pressed) {
+            SEND_STRING(SS_LALT("D83D+DE18"));
+        }
+        return false;
+        break;
   }
   return true;
 }
