@@ -70,10 +70,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: LOWER ---------------------------::
 // ____
 [_LOWER] = LAYOUT_planck_grid(
-    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,  KC_PIPE,  KC_EQL,   LSFT(KC_SCLN),
-    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,  KC_RCBR,  KC_SLSH,  KC_PLUS,
-    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  _______,  _______,  _______, KC_ENT,
-    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  KC_MRWD,  LALT(LSFT(KC_VOLD)),  LALT(LSFT(KC_VOLU)),  KC_MUTE
+    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,     KC_PIPE,  KC_EQL,     LSFT(KC_SCLN),
+    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,     KC_RCBR,  KC_SLSH,    KC_PLUS,
+    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  LGUI(KC_P),  LGUI(LSFT(KC_P)),     _______, KC_ENT,
+    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  KC_MRWD,     LALT(LSFT(KC_VOLD)),  LALT(LSFT(KC_VOLU)),  KC_MUTE
 ),
 
 // π ----
@@ -101,9 +101,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ____
 [_NAV] = LAYOUT_planck_grid(
     KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,    _______, _______, _______, _______, _______, _______,
-    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,    KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-    _______,      _______,       _______,       _______,     _______,        _______,    _______, SCN_LT,  SCN_RT,  _______, _______, _______,
-    _______,      _______,       _______,       _______,     _______,        _______,    _______, _______, _______, _______, _______, _______),
+    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,      KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
+    _______,      _______,       _______,       _______,       LGUI(KC_GRV),   _______,    _______, SCN_LT,  SCN_RT,  _______, _______, _______,
+    _______,      _______,       _______,       _______,       _______,        _______,    _______, _______, _______, _______, _______, _______),
 
 // π ----
 // :: MACROS ---------------------------::
