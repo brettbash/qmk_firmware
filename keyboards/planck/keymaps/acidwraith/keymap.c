@@ -15,6 +15,7 @@ enum planck_layers {
   _VIM,
   _NAV,
   _FNC,
+  _DESIGN,
   _EMOJI,
   _ADJUST
 };
@@ -45,6 +46,16 @@ enum planck_keycodes {
     KISS
 };
 
+//Tap Dance Declarations
+enum {
+  TD_SFT_CAPS = 0
+};
+
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TD_SFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
+};
+
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
 #define KC_TABR LGUI(KC_RBRC)  // Send Command + ]
@@ -60,20 +71,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: COLEMAK ---------------------------::
 // ____
 [_COLEMAK] = LAYOUT_planck_grid(
-    KC_TAB,     KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,     KC_J,     KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,
-    EMOJI_ESC,  KC_A,    KC_R,    KC_S,    KC_T,    KC_D,     KC_H,     KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-    KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_K,     KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-    MO(_FNC),   KC_LCTL, KC_LALT, KC_LGUI, LOWER,   BSPC_VIM, SPACE_FN, RAISE,   KC_MFFD, KC_VOLD, KC_VOLU, KC_MPLY
+    LT(_DESIGN, KC_TAB), KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,     KC_J,     KC_L,    KC_U,    KC_Y,                    KC_SCLN,               KC_BSPC,
+    EMOJI_ESC,           KC_A,    KC_R,    KC_S,    KC_T,    KC_D,     KC_H,     KC_N,    KC_E,    KC_I,                    KC_O,                  KC_QUOT,
+    TD(TD_SFT_CAPS),     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_K,     KC_M,    KC_COMM, KC_DOT,                  KC_SLSH,               KC_ENT,
+    MO(_FNC),            KC_LCTL, KC_LALT, KC_LGUI, LOWER,   BSPC_VIM, SPACE_FN, RAISE,   KC_MFFD, LALT(LSFT(KC__VOLDOWN)), LALT(LSFT(KC__VOLUP)), KC_MPLY
 ),
 
 // π ----
 // :: LOWER ---------------------------::
 // ____
 [_LOWER] = LAYOUT_planck_grid(
-    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,     KC_PIPE,  KC_EQL,     LSFT(KC_SCLN),
-    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,     KC_RCBR,  KC_SLSH,    KC_PLUS,
-    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  LGUI(KC_P),  LGUI(LSFT(KC_P)),     _______, KC_ENT,
-    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  KC_MRWD,     LALT(LSFT(KC_VOLD)),  LALT(LSFT(KC_VOLU)),  KC_MUTE
+    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,     KC_PIPE,           KC_EQL,   LSFT(KC_SCLN),
+    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,     KC_RCBR,           KC_SLSH,  KC_PLUS,
+    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  LGUI(KC_P),  LGUI(LSFT(KC_P)),  _______,  KC_ENT,
+    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  KC_MRWD,     KC__VOLDOWN,       KC__VOLUP, KC_MUTE
 ),
 
 // π ----
@@ -100,19 +111,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: NAVIGATION ---------------------------::
 // ____
 [_NAV] = LAYOUT_planck_grid(
-    KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,    _______, _______, _______, _______, _______, _______,
-    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,      KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, _______,
-    _______,      _______,       _______,       _______,       LGUI(KC_GRV),   _______,    _______, SCN_LT,  SCN_RT,  _______, _______, _______,
-    _______,      _______,       _______,       _______,       _______,        _______,    _______, _______, _______, _______, _______, _______),
+    KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,    _______, KC_MS_BTN1, _______, _______, _______, _______,
+    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,      KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT,    KC_DOWN, KC_UP,   KC_RGHT, _______,
+    _______,      _______,       _______,       _______,       LGUI(KC_GRV),   _______,    _______, SCN_LT,     SCN_RT,  _______, _______, _______,
+    _______,      _______,       _______,       _______,       _______,        _______,    _______, _______,    _______, _______, _______, _______),
 
 // π ----
 // :: MACROS ---------------------------::
 // ____
 [_FNC] = LAYOUT_planck_grid(
-    SRC_CODE,  CODEBRWR, TEACODE, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    DEV_TOOLS, THINGS,   DAYONE,  ONEPASS, _______, _______, _______, _______, _______, _______, _______, _______,
-    CODE,      COLRPIK,  COLRSWT, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-    _______,   SCREEN,   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    SRC_CODE,  CODEBRWR, TEACODE, _______, _______, _______, _______,            _______, _______, _______, _______, _______,
+    DEV_TOOLS, THINGS,   DAYONE,  ONEPASS, _______, _______, _______,            _______, _______, _______, _______, _______,
+    CODE,      COLRPIK,  COLRSWT, _______, _______, _______, _______,            _______, _______, _______, _______, _______,
+    _______,   SCREEN,   _______, _______, _______, _______, LGUI(LALT(KC_SPC)), _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+),
+
+// π ----
+// :: DESIGN ---------------------------::
+// ____
+[_DESIGN] = LAYOUT_planck_grid(
+    _______, LGUI(KC_MINS), LGUI(KC_PLUS), KC_V,             KC_P,            KC_B,             _______,          _______, _______, _______, _______, _______,
+    KC_R,    LGUI(KC_9),    LGUI(KC_0),    LGUI(KC_G),       LGUI(LSFT(KC_G)), LGUI(KC_D),       LGUI(LALT(KC_K)), _______, _______, _______, _______, _______,
+    KC_O,    KC_I,          LGUI(KC_R),    LGUI(LSFT(KC_H)), LGUI(LSFT(KC_O)), LGUI(LALT(KC_C)), LGUI(LALT(KC_V)), _______, _______, _______, _______, _______,
+    KC_L,    LSFT(KC_R),    LCTL(KC_G),    LGUI(LALT(KC_M)), _______,         _______,          KC_SPACE,         _______, _______, _______, _______, _______
 ),
 
 // Emoji
