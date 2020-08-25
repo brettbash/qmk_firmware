@@ -41,6 +41,8 @@ enum planck_keycodes {
 
     SCN_LT,
     SCN_RT,
+    MCRL_OPN,
+    MCRL_CLS,
 
     // Emoji
     KISS
@@ -110,10 +112,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: NAVIGATION ---------------------------::
 // ____
 [_NAV] = LAYOUT_planck_grid(
-    KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,         _______, KC_MS_BTN1, _______, _______, _______, _______,
-    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,      KC_MS_RIGHT,    KC_MS_BTN1,      _______, KC_LEFT,    KC_DOWN, KC_UP,   KC_RGHT, _______,
-    _______,      _______,       _______,       _______,       LGUI(KC_GRV),   _______,         _______, SCN_LT,     SCN_RT,  _______, _______, _______,
-    _______,      _______,       _______,       _______,       _______,        LGUI(KC_SPC),    _______, _______,    _______, _______, _______, _______),
+    KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,         _______, KC_MS_BTN1, _______, _______,  _______,  _______,
+    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,      KC_MS_RIGHT,    KC_MS_BTN1,      _______, KC_LEFT,    KC_DOWN, KC_UP,    KC_RGHT,  _______,
+    _______,      _______,       _______,       _______,       LGUI(KC_GRV),   _______,         _______, SCN_LT,     SCN_RT,  MCRL_OPN, MCRL_CLS, _______,
+    _______,      _______,       _______,       _______,       _______,        LGUI(KC_SPC),    _______, _______,    _______, _______,  _______,  _______),
 
 // π ----
 // :: FUNCTIONS ---------------------------::
@@ -283,6 +285,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case SCN_RT:
         if (record->event.pressed) {
           SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_RIGHT) SS_UP(X_LCTRL) SS_UP(X_RIGHT));
+        }
+      return false;
+      break;
+    // Mission Control Open
+    case MCRL_OPN:
+        if (record->event.pressed) {
+          SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_UP) SS_UP(X_LCTRL) SS_UP(X_UP));
+        }
+      return false;
+      break;
+    // Mission Control Close
+    case MCRL_CLS:
+        if (record->event.pressed) {
+          SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_DOWN) SS_UP(X_LCTRL) SS_UP(X_DOWN));
         }
       return false;
       break;
