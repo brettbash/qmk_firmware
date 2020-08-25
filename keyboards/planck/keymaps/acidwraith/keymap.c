@@ -63,7 +63,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define SPACE_FN LT(_NAV, KC_SPC)
 #define BSPC_VIM LT(_VIM, KC_BSPC)
 #define EMOJI_ESC LT(_EMOJI, KC_ESC)
-#define VIM_ALF LT(KC_LSFT, LGUI(KC_SPC)) // Not working currently.
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -71,10 +70,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: COLEMAK ---------------------------::
 // ____
 [_COLEMAK] = LAYOUT_planck_grid(
-    LT(_DESIGN, KC_TAB), KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,     KC_J,     KC_L,    KC_U,    KC_Y,                    KC_SCLN,               KC_BSPC,
-    EMOJI_ESC,           KC_A,    KC_R,    KC_S,    KC_T,    KC_D,     KC_H,     KC_N,    KC_E,    KC_I,                    KC_O,                  KC_QUOT,
-    TD(TD_SFT_CAPS),     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_K,     KC_M,    KC_COMM, KC_DOT,                  KC_SLSH,               KC_ENT,
-    MO(_FNC),            KC_LCTL, KC_LALT, KC_LGUI, LOWER,   BSPC_VIM, SPACE_FN, RAISE,   KC_MFFD, LALT(LSFT(KC__VOLDOWN)), LALT(LSFT(KC__VOLUP)), KC_MPLY
+    KC_TAB,          KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,     KC_J,     KC_L,    KC_U,     KC_Y,        KC_SCLN, KC_BSPC,
+    EMOJI_ESC,       KC_A,    KC_R,    KC_S,    KC_T,    KC_D,     KC_H,     KC_N,    KC_E,     KC_I,        KC_O,    KC_QUOT,
+    TD(TD_SFT_CAPS), KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,     KC_K,     KC_M,    KC_COMM,  KC_DOT,      KC_SLSH, KC_ENT,
+    KC_MPLY,         KC_LCTL, KC_LALT, KC_LGUI, LOWER,   BSPC_VIM, SPACE_FN, RAISE,   MO(_FNC), TG(_DESIGN), XXXXXXX, XXXXXXX
 ),
 
 // π ----
@@ -84,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,     KC_PIPE,           KC_EQL,   LSFT(KC_SCLN),
     KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,     KC_RCBR,           KC_SLSH,  KC_PLUS,
     _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  LGUI(KC_P),  LGUI(LSFT(KC_P)),  _______,  KC_ENT,
-    _______,  _______,   _______,           _______,        _______,  LGUI(KC_SPC),   KC_SPC,   _______,  KC_MRWD,     KC__VOLDOWN,       KC__VOLUP, KC_MUTE
+    _______,  _______,   _______,           _______,        _______,  _______,        KC_SPC,   _______,  XXXXXXX,     XXXXXXX,           XXXXXXX,  XXXXXXX
 ),
 
 // π ----
@@ -101,29 +100,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: VIM ---------------------------::
 // ____
 [_VIM] = LAYOUT_planck_grid(
-    _______,  _______, LSFT(KC_G), JUMP_TOP, _______, _______, KC_CIRC, LCTL(KC_F),  LCTL(KC_D), LCTL(KC_U), LCTL(KC_B), _______,
-    KC_ESC,   KC_B,    KC_RCBR,    KC_LCBR,  KC_W,    KC_E,    KC_0,          KC_H,        KC_J,       KC_K,       KC_L,       KC_DLR,
-    _______,  _______, _______,    _______,  _______, _______, _______,       _______,     _______,    _______,    _______,    _______,
-    _______,  _______, _______,    _______,  _______, _______, KC_LSFT,       _______,     _______,    _______,    _______,    _______
+    _______,  _______, LSFT(KC_G), JUMP_TOP, _______, _______, KC_CIRC, LCTL(KC_F),          LCTL(KC_D), LCTL(KC_U), LCTL(KC_B), _______,
+    KC_ESC,   KC_B,    KC_RCBR,    KC_LCBR,  KC_W,    KC_E,    KC_0,    KC_H,                KC_J,       KC_K,       KC_L,       KC_DLR,
+    _______,  _______, _______,    _______,  _______, _______, _______, _______,             _______,    _______,    _______,    _______,
+    _______,  _______, _______,    _______,  _______, _______, KC_LSFT, LGUI(LALT(KC_SPC)),  _______,    _______,    _______,    _______
 ),
 
 // π ----
 // :: NAVIGATION ---------------------------::
 // ____
 [_NAV] = LAYOUT_planck_grid(
-    KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,    _______, KC_MS_BTN1, _______, _______, _______, _______,
-    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,      KC_MS_RIGHT,    KC_MS_BTN1, _______, KC_LEFT,    KC_DOWN, KC_UP,   KC_RGHT, _______,
-    _______,      _______,       _______,       _______,       LGUI(KC_GRV),   _______,    _______, SCN_LT,     SCN_RT,  _______, _______, _______,
-    _______,      _______,       _______,       _______,       _______,        _______,    _______, _______,    _______, _______, _______, _______),
+    KC_MS_BTN3,   KC_MS_WH_LEFT, KC_MS_WH_UP,   KC_MS_WH_DOWN, KC_MS_WH_RIGHT, _______,         _______, KC_MS_BTN1, _______, _______, _______, _______,
+    KC_MS_BTN2,   KC_MS_LEFT,    KC_MS_DOWN,    KC_MS_UP,      KC_MS_RIGHT,    KC_MS_BTN1,      _______, KC_LEFT,    KC_DOWN, KC_UP,   KC_RGHT, _______,
+    _______,      _______,       _______,       _______,       LGUI(KC_GRV),   _______,         _______, SCN_LT,     SCN_RT,  _______, _______, _______,
+    _______,      _______,       _______,       _______,       _______,        LGUI(KC_SPC),    _______, _______,    _______, _______, _______, _______),
 
 // π ----
-// :: MACROS ---------------------------::
+// :: FUNCTIONS ---------------------------::
 // ____
 [_FNC] = LAYOUT_planck_grid(
-    SRC_CODE,  CODEBRWR, TEACODE, _______, _______, _______, _______,            _______, _______, _______, _______, _______,
-    DEV_TOOLS, THINGS,   DAYONE,  ONEPASS, _______, _______, _______,            _______, _______, _______, _______, _______,
-    CODE,      COLRPIK,  COLRSWT, _______, _______, _______, _______,            _______, _______, _______, _______, _______,
-    _______,   SCREEN,   _______, _______, _______, _______, LGUI(LALT(KC_SPC)), _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX
+    SRC_CODE,  CODEBRWR, TEACODE, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    DEV_TOOLS, THINGS,   DAYONE,  ONEPASS, _______, _______, _______, _______, _______, _______, _______, _______,
+    CODE,      COLRPIK,  COLRSWT, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______,   SCREEN,   _______, _______, _______, _______, _______, _______, XXXXXXX, KC_MUTE, KC_MRWD, KC_MFFD
 ),
 
 // π ----
@@ -306,35 +305,11 @@ uint8_t muse_offset = 70;
 uint16_t muse_tempo = 50;
 
 void encoder_update(bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
-    } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
-    }
-  } else {
     if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
-      #else
-        tap_code(KC_PGDN);
-      #endif
+        tap_code16(A(S(KC__VOLDOWN)));
     } else {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
-      #else
-        tap_code(KC_PGUP);
-      #endif
+        tap_code16(A(S(KC__VOLUP)));
     }
-  }
 }
 
 void dip_switch_update_user(uint8_t index, bool active) {

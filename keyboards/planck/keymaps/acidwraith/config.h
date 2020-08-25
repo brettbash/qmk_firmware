@@ -34,9 +34,6 @@
 /* override number of MIDI tone keycodes (each octave adds 12 keycodes and allocates 12 bytes) */
 //#define MIDI_TONE_KEYCODE_OCTAVES 2
 
-// Most tactile encoders have detents every 4 stages
-#define ENCODER_RESOLUTION 4
-#define ENCODER_RESOLUTION 4
 
 /*
  * Mouse Keys
@@ -57,3 +54,9 @@
 
 // Tap Dancing
 #define TAPPING_TERM 200
+
+// Encoder
+#define ENCODERS_PAD_A { B12 }
+#define ENCODERS_PAD_B { B13 }
+#define ENCODER_RESOLUTION 4
+#define TAP_CODE_DELAY 10
