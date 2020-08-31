@@ -25,6 +25,8 @@ enum planck_keycodes {
 
     // Macros
     CODE,
+    FUNC_TOG,
+    DESN_TOG,
     TEACODE,
     CODEBRWR,
     DEV_TOOLS,
@@ -48,15 +50,6 @@ enum planck_keycodes {
     KISS
 };
 
-//Tap Dance Declarations
-enum {
-  TD_SFT_CAPS = 0
-};
-
-//Tap Dance Definitions
-qk_tap_dance_action_t tap_dance_actions[] = {
-  [TD_SFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
-};
 
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
@@ -65,6 +58,55 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define SPACE_FN LT(_NAV, KC_SPC)
 #define BSPC_VIM LT(_VIM, KC_BSPC)
 #define EMOJI_ESC LT(_EMOJI, KC_ESC)
+
+#ifdef AUDIO_ENABLE
+  float plover_song[][2]     = SONG(OVERWATCH);
+  float caps_lock_on[][2]     = SONG(COIN);
+  float caps_lock_off[][2]     = SONG(MARIO);
+  float mission_open[][2]     = SONG(SONIC_RINGS);
+  float mission_close[][2]     = SONG(ZELDA_2);
+  float function_song[][2]     = SONG(ONE_UP);
+  float design_song[][2]     = SONG(ZELDA_1);
+  float plover_gb_song[][2]  = SONG(GAMEOVER);
+#endif
+
+//Tap Dance Declarations
+enum {
+  TD_SFT_CAPS = 0
+};
+
+//Tap Dance Definitions
+float caps_active = 0;
+
+void toggle_caps(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+        register_code16(KC_LSFT);
+    } else {
+        if (caps_active == 0) {
+            register_code16(KC_CAPSLOCK);
+            PLAY_SONG(caps_lock_on);
+            caps_active = 1;
+        } else if (caps_active == 1) {
+            unregister_code16(KC_CAPSLOCK);
+            register_code16(KC_CAPSLOCK);
+            unregister_code16(KC_CAPSLOCK);
+            PLAY_SONG(caps_lock_off);
+            caps_active = 0;
+        }
+
+    }
+}
+
+void reset_caps(qk_tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+        unregister_code16(KC_LSFT);
+    }
+}
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+//   [TD_SFT_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
+  [TD_SFT_CAPS]  = ACTION_TAP_DANCE_FN_ADVANCED(NULL, toggle_caps, reset_caps)
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -82,10 +124,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // :: LOWER ---------------------------::
 // ____
 [_LOWER] = LAYOUT_planck_grid(
-    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,     KC_PIPE,           KC_EQL,   LSFT(KC_SCLN),
-    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,     KC_RCBR,           KC_SLSH,  KC_PLUS,
-    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  LGUI(KC_P),  LGUI(LSFT(KC_P)),  _______,  KC_ENT,
-    _______,  _______,   _______,           _______,        _______,  _______,        KC_SPC,   _______,  XXXXXXX,     XXXXXXX,           XXXXXXX,  XXXXXXX
+    KC_GRV,   KC_EXLM,   KC_AT,             KC_HASH,        KC_DLR,   KC_PERC,        KC_CIRC,  KC_AMPR,  KC_ASTR,     KC_PIPE,           KC_EQL,     LSFT(KC_SCLN),
+    KC_TILD,  KC_BSLS,   KC_LCBR,           KC_LBRC,        KC_LPRN,  KC_LT,          KC_GT,    KC_RPRN,  KC_RBRC,     KC_RCBR,           KC_SLSH,    KC_PLUS,
+    _______,  _______,   LALT(LSFT(KC_A)),  LGUI(KC_SLSH),  KC_TABL,  KC_MINS,        KC_UNDS,  KC_TABR,  LGUI(KC_P),  LGUI(LSFT(KC_P)),  LGUI(KC_E), KC_ENT,
+    _______,  _______,   _______,           _______,        _______,  _______,        KC_SPC,   _______,  XXXXXXX,     XXXXXXX,           XXXXXXX,    XXXXXXX
 ),
 
 // π ----
@@ -173,10 +215,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-#ifdef AUDIO_ENABLE
-  float plover_song[][2]     = SONG(PLOVER_SOUND);
-  float plover_gb_song[][2]  = SONG(PLOVER_GOODBYE_SOUND);
-#endif
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     switch (biton32(state)) {
@@ -203,6 +241,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case CODE:
         if (record->event.pressed) {
             SEND_STRING(SS_DOWN(X_LCTRL) SS_LCMD("e") SS_UP(X_LCTRL));
+        }
+      return false;
+      break;
+    case FUNC_TOG:
+        if (record->event.pressed) {
+            // MO(_FNC);
+            // SEND_STRING(SS_DOWN((LOWER)));
+            PLAY_SONG(function_song);
         }
       return false;
       break;
@@ -291,14 +337,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     // Mission Control Open
     case MCRL_OPN:
         if (record->event.pressed) {
-          SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_UP) SS_UP(X_LCTRL) SS_UP(X_UP));
+            SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_UP) SS_UP(X_LCTRL) SS_UP(X_UP));
+            PLAY_SONG(mission_open);
         }
       return false;
       break;
     // Mission Control Close
     case MCRL_CLS:
         if (record->event.pressed) {
-          SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_DOWN) SS_UP(X_LCTRL) SS_UP(X_DOWN));
+            SEND_STRING(SS_DOWN(X_LCTRL) SS_DOWN(X_DOWN) SS_UP(X_LCTRL) SS_UP(X_DOWN));
+            PLAY_SONG(mission_close);
         }
       return false;
       break;

@@ -1,7 +1,118 @@
 #pragma once
 
 #ifdef AUDIO_ENABLE
-    #define STARTUP_SONG SONG(PLANCK_SOUND)
+    #define SONIC_RINGS E__NOTE(_E6), E__NOTE(_G6), HD_NOTE(_C7),
+
+    #define COIN \
+        E__NOTE(_A5  ), \
+        HD_NOTE(_E6  ),
+
+    #define ONE_UP \
+        Q__NOTE(_E6  ),  \
+        Q__NOTE(_G6  ),  \
+        Q__NOTE(_E7  ),  \
+        Q__NOTE(_C7  ),  \
+        Q__NOTE(_D7  ),  \
+        Q__NOTE(_G7  ),
+
+    #define OVERWATCH \
+        HD_NOTE(_A4 ), \
+        Q__NOTE(_E4 ), \
+        Q__NOTE(_A4 ), \
+        HD_NOTE(_B4 ), \
+        Q__NOTE(_E4 ), \
+        Q__NOTE(_B4 ), \
+        W__NOTE(_CS5),
+
+    #define MARIO \
+        Q__NOTE(_E5), \
+        H__NOTE(_E5), \
+        H__NOTE(_E5), \
+        Q__NOTE(_C5), \
+        H__NOTE(_E5), \
+        W__NOTE(_G5), \
+        Q__NOTE(_G4),
+
+    #define GAMEOVER \
+        HD_NOTE(_C5 ), \
+        HD_NOTE(_G4 ), \
+        H__NOTE(_E4 ), \
+        H__NOTE(_A4 ), \
+        H__NOTE(_B4 ), \
+        H__NOTE(_A4 ), \
+        H__NOTE(_AF4), \
+        H__NOTE(_BF4), \
+        H__NOTE(_AF4), \
+        WD_NOTE(_G4 ),
+
+    #define GREEN_DAY \
+        QD_NOTE(_G3), E__NOTE(_F3), E__NOTE(_E3), Q__NOTE(_F3), M__NOTE(_G3, 8+32), Q__NOTE(_REST), \
+        Q__NOTE(_B4), Q__NOTE(_C4), Q__NOTE(_B4), E__NOTE(_A4), Q__NOTE(_G3), M__NOTE(_G3, 8+32), Q__NOTE(_REST), \
+        Q__NOTE(_B4), Q__NOTE(_C4), Q__NOTE(_B4), E__NOTE(_A4), Q__NOTE(_G3), Q__NOTE(_G3), Q__NOTE(_G3), Q__NOTE(_G3), E__NOTE(_A4), E__NOTE(_C4), QD_NOTE(_B4), HD_NOTE(_B4)
+
+    #define ZELDA_2 \
+        Q__NOTE(_G5),     \
+        Q__NOTE(_FS5),    \
+        Q__NOTE(_DS5),     \
+        Q__NOTE(_A4),    \
+        Q__NOTE(_GS4),     \
+        Q__NOTE(_E5),     \
+        Q__NOTE(_GS5),     \
+        HD_NOTE(_C6),
+
+    #define ZELDA_1 \
+        Q__NOTE(_A4 ), \
+        Q__NOTE(_AS4), \
+        Q__NOTE(_B4 ), \
+        HD_NOTE(_C5 ), \
+
+    #define DOOM  \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_D4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_C4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_BF3), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_B3 ), \
+        Q__NOTE(_C4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_D4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_C4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        H__NOTE(_BF3), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_B3 ), \
+        Q__NOTE(_C4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_D4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_C4 ), \
+        Q__NOTE(_E3 ), \
+        Q__NOTE(_E3 ), \
+        H__NOTE(_BF3),
+
+    #define STARTUP_SONG SONG(DOOM)
     // #define STARTUP_SONG SONG(NO_SOUND)
 
     #define DEFAULT_LAYER_SONGS { SONG(QWERTY_SOUND), \
